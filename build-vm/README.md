@@ -13,5 +13,5 @@
     * password - vagrant
 	
 ####Acknowledgements:
-  * Used reference for help from (http://www.sitepoint.com/vagrantfile-explained-setting-provisioning-shell)
-  * Used vagrant virtual box image from (https://atlas.hashicorp.com/box-cutter/boxes/ubuntu1404-desktop)
+  * Used reference for help from [here](http://www.sitepoint.com/vagrantfile-explained-setting-provisioning-shell)
+  * Used vagrant virtual box image from [here](https://atlas.hashicorp.com/box-cutter/boxes/ubuntu1404-desktop)
