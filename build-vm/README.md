@@ -2,8 +2,8 @@
 
 1. Download and install [VirtualBox](https://www.virtualbox.org/)
 2. Download and install [Vagrant](http://www.vagrantup.com/)
-3. Clone this repository.
-4. Navigate to this directory and run `vagrant up` on terminal to set up the vm.
+3. Download the vagrant file given and store it in the location you want the virtual machine.
+4. Navigate to this location via cmd(windows) or terminal (ubuntu) and give command vagrant up.
 
 
 ####Notes:
