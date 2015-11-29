@@ -1,0 +1,3 @@
+We followed following two references to create this virtual machine:
+	* Used vagrant virtual-box image from https://atlas.hashicorp.com/box-cutter/boxes/ubuntu1404-desktop
+	* Used reference for help http://www.sitepoint.com/vagrantfile-explained-setting-provisioning-shell/
