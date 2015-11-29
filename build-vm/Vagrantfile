@@ -1,66 +1,98 @@
+
 Vagrant.configure(2) do |config|
-	config.vm.box = "box-cutter/ubuntu1404-desktop"
+
+	config.vm.box = "boxcutter/ubuntu1404-desktop"
 	config.vm.provider "virtualbox" do |vb|
-			vb.gui = true
-			vb.memory = "2048"
-			vb.name="fujaba"
+		vb.gui = true
+		vb.memory = "2048"
+		vb.name = "Fujaba"
 		end
 	config.vm.provision "shell", inline: <<-SHELL
 		gsettings set org.gnome.desktop.screensaver lock-enabled false
 		sudo apt-get update
-		
-		echo "Innstalling java version 8...."
-		add-apt-repository ppa:webupd8team/java
-		sudo apt-get update -qq
-		echo debconf shared/accepted-oracle-license-v1-1 select true | /usr/bin/debconf-set-selections
-		echo debconf shared/accepted-oracle-license-v1-1 seen true | /usr/bin/debconf-set-selections
-		apt-get install --yes oracle-java8-installer
-		yes "" | apt-get -f install
 
-		sudo apt-get install unzip
+echo "Installing java8..."		
+add-apt-repository ppa:webupd8team/java
+apt-get update -qq
+echo debconf shared/accepted-oracle-license-v1-1 select true | /usr/bin/debconf-set-selections
+echo debconf shared/accepted-oracle-license-v1-1 seen true | /usr/bin/debconf-set-selections
+apt-get install --yes oracle-java8-installer
+yes "" | apt-get -f install
+
+sudo apt-get install unzip
+
 
 # tool download section
 
+echo "Fetching eclipse files for the tool...."
 
-# Obtain required Desktop files for VM
-echo "Fetching eclipse files for MechatronicUML tool"
-
+# Install Eclipse and workspace (to run the tool)
 cd /home/vagrant/Desktop
-sudo wget -O /home/vagrant/Desktop/eclipse.tar.gz "https://googledrive.com/host/0B8-9cnK0Fc6hRzJ4V2REc1BfZDg/eclipse.tar.gz"
-tar xvzf eclipse.tar.gz
+sudo wget -nv -O /home/vagrant/Desktop/eclipse.tar.gz "https://googledrive.com/host/0B8-9cnK0Fc6hU1F4VnFEbXdmam8/eclipse.tar.gz"
+tar xzf eclipse.tar.gz
 rm -f eclipse.tar.gz
 # sudo chmod 777 -R /home/vagrant/Desktop/*
 sudo ln -s eclipse/eclipse /usr/bin/eclipse
 
 
-# Create an application launcher for Eclipse (to launch it on startup)
-sudo touch /usr/share/applications/eclipse.desktop
-sudo echo "[Desktop Entry]" >> /usr/share/applications/eclipse.desktop
-sudo echo "Version=4.4" >> /usr/share/applications/eclipse.desktop
-sudo echo "Name=Eclipse" >> /usr/share/applications/eclipse.desktop
-sudo echo "Comment=Integrated Development Environment" >> /usr/share/applications/eclipse.desktop
-sudo echo "Exec=/home/vagrant/Desktop/eclipse/eclipse -clean -data /home/vagrant/Desktop/workspace -vm /usr/lib/jvm/java-7-oracle/bin/java" >> /usr/share/applications/eclipse.desktop
-sudo echo "Type=Application" >> /usr/share/applications/eclipse.desktop
-sudo echo "Icon=/opt/eclipse/icon.xpm" >> /usr/share/applications/eclipse.desktop
-sudo echo "Terminal=false" >> /usr/share/applications/eclipse.desktop
-sudo echo "NoDisplay=false" >> /usr/share/applications/eclipse.desktop
-sudo echo "Categories=Development;IDE" >> /usr/share/applications/eclipse.desktop
-sudo chmod +x /usr/share/applications/eclipse.desktop
-sudo update-desktop-database
+echo "fetching workspace..."
+cd /home/vagrant/
+sudo wget -nv -O /home/vagrant/workspace.tar.gz "https://googledrive.com/host/0B8-9cnK0Fc6hU1F4VnFEbXdmam8/workspace.tar.gz"
+tar xzf workspace.tar.gz
+rm -f workspace.tar.gz
 
+echo "Fetching desktop files...."
+sudo wget -nv -O /home/vagrant/Desktop/readme.txt "https://raw.githubusercontent.com/SoftwareEngineeringToolDemos/ICSE-2010-Fujaba-MechatronicUML/master/build-vm/vm-files/readme.txt"
+sudo wget -nv -O /home/vagrant/Desktop/Demo.desktop "https://raw.githubusercontent.com/SoftwareEngineeringToolDemos/ICSE-2010-Fujaba-MechatronicUML/master/build-vm/vm-files/Link%20to%20demo%20Video.desktop"
+sudo wget -nv -O /home/vagrant/Desktop/installation.txt "https://raw.githubusercontent.com/SoftwareEngineeringToolDemos/ICSE-2010-Fujaba-MechatronicUML/master/build-vm/vm-files/Installation.txt"
+sudo wget -nv -O /home/vagrant/Desktop/License.txt "https://raw.githubusercontent.com/SoftwareEngineeringToolDemos/ICSE-2010-Fujaba-MechatronicUML/master/build-vm/vm-files/Licence.txt"
+sudo wget -nv -O /home/vagrant/Desktop/acknowledgement.txt "https://raw.githubusercontent.com/SoftwareEngineeringToolDemos/ICSE-2010-Fujaba-MechatronicUML/master/build-vm/vm-files/acknowledgement.txt"
+cd /home/vagrant/Desktop
 
-#sudo wget -O /home/vagrant/Desktop/vm-files.tar.gz "https://github.com/SoftwareEngineeringToolDemos/ICSE-2014-Atlas/raw/master/build-vm/vm-files.tar.gz"
-#tar zxvf /home/vagrant/Desktop/vm-files.tar.gz -C /home/vagrant/Desktop/
-#sudo rm /home/vagrant/Desktop/vm-files.tar.gz
-#sudo chmod 775 /home/vagrant/Desktop/*
-#pwd
+#get binar files to desktop
+cd /home/vagrant/Desktop
+mkdir binaryFiles
+cp -R /home/vagrant/Desktop/eclipse/plugins/* /home/vagrant/Desktop/binaryFiles
+sudo chmod -R /home/vagrant/Desktop/binaryFiles 
 
-# Start Eclipse on startup (Add Eclipse to startup)
-#cd /home/vagrant/.config/
-#mkdir autostart
-#sudo cp /usr/share/applications/eclipse.desktop /home/vagrant/.config/autostart/
+chown -R vagrant:vagrant * 
 
+git clone https://github.com/SoftwareEngineeringToolDemos/ICSE-2013-DRC.git
+  
+mkdir /home/vagrant/.config/autostart
 
+#disable locked screen
+wget -nv -O /home/vagrant/disable-lock-screen.sh "https://raw.githubusercontent.com/SoftwareEngineeringToolDemos/ICSE-2010-Fujaba-MechatronicUML/master/build-vm/vm-files/disable_lock_screen.sh"
+chmod a+x /home/vagrant/disable-lock-screen.sh
+
+echo '[Desktop Entry]
+Type=Application
+Name=Disable Lock screen
+Exec=/home/vagrant/disable-lock-screen.sh
+' >> /home/vagrant/.config/autostart/disable-lock-screen.desktop
+ 
+echo '[Desktop Entry]
+Type=Application
+Name=Eclipse 
+Comment=Eclipse Integrated Development Environment
+Icon=eclipse
+Exec=/home/vagrant/Desktop/eclipse/eclipse -clean -data /home/vagrant/workspace
+Terminal=false
+Categories=Development;IDE;Java;
+' >> /home/vagrant/.config/autostart/eclipse.desktop
+
+sudo chmod -R 777 /home/vagrant/.config/autostart
+  
+sudo apt-get update
+
+#Remove unused icon
+  sudo rm -f "/usr/share/applications/ubuntu-amazon-default.desktop"
+  sudo rm -f "/usr/share/applications/libreoffice-calc.desktop"
+  sudo rm -f "/usr/share/applications/libreoffice-writer.desktop"
+  sudo rm -f "/usr/share/applications/libreoffice-impress.desktop"
+  sudo rm -f "/usr/share/applications/ubuntu-software-center.desktop"
+
+sudo reboot
 
 SHELL
 
