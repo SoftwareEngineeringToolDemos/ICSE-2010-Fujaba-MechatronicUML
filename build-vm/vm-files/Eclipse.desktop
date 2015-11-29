@@ -1,0 +1,8 @@
+[Desktop Entry]
+Type=Application
+Exec=/home/vagrant/Downloads/eclipse/eclipse -import /home/vagrant/Downloads/shopping-cart/ -data /home/vagrant/workspace
+Hidden=false
+NoDisplay=false
+X-GNOME-Autostart-enabled=true
+Name[en_US]=Eclipse
+Name=Eclipse
