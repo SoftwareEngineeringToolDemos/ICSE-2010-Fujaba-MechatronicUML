@@ -1,0 +1,24 @@
+Following are the steps to install the tool.
+
+Prerequisites:
+Before installing the MechatronicUML Tool Suite, please execute the following steps:
+
+1.Install a Java 8 Virtual Machine in order to use Eclipse and MechatronicUML. We recommend using the ?Oracle JRE Version 8 (http://www.oracle.com/technetwork/java/javase/downloads/jre8-downloads-2133155.html).
+2.Install Eclipse
+  For Installing the stable release 0.5: ?Eclipse Luna Modeling Tools SR2 (http://www.eclipse.org/downloads/packages/eclipse-modeling-tools/lunasr2).
+  For Installing the last stable build: ?Eclipse Mars Modeling Tools R(http://www.eclipse.org/downloads/packages/eclipse-modeling-tools/marsr).
+
+Installing MechatronicUML:
+
+To install the MechatronicUML Tool Suite, please perform the following steps:
+
+1. Start the Eclipse Modeling Tools.
+2. In Eclipse, choose Help -> Install New Software from the menu.
+3. Enable the option "Contact all update sites during install to find required software".
+4. Click "Add..." and enter the following information in the dialog: Name = MechatronicUML Tool Suite,
+	a. For Installing the last stable release: Location = ?(http://muml-build.cs.upb.de/job/UpdateSite/lastSuccessfulReleaseBuild/artifact/targetPlatform/) this is the last official Release of the MechatronicUML Tool Suite, which provides stable Tooling and Metamodels
+	b. For Installing the last stable build: Location = ?(http://muml-build.cs.upb.de/job/UpdateSite/lastStableBuild/artifact/targetPlatform/) the last stable build is a current (incubation) snapshot of the MechatronicUML Tool Suite and might contain errors
+5. Choose the features of our update site you want to install (remember that dependent features will be selected and installed automatically.). If you are not sure, which features you need
+
+
+For more detials please refer to this link: (https://trac.cs.upb.de/mechatronicuml/wiki/InstallMechatronicUMLToolSuite/Binary)
